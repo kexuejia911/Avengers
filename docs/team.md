@@ -6,11 +6,11 @@ title:  Team
 # {{ page.title }}
 
 
-## USER 1
-***UCI Net ID***: ucinetid1
+## Xiaopeng Yi
+***UCI Net ID***: xiaopeny
 
-## USER 2
-***UCI Net ID***: ucinetid2
+## Tyler Walters
+***UCI Net ID***: tjwalter
 
-## USER 3
-***UCI Net ID***: ucinetid3
+## Yan Zhang
+***UCI Net ID***: zhangy26
