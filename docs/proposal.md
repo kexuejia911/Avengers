@@ -19,7 +19,7 @@ Quantitative Evaluation:
 - Numerical Metrics: Time to process, number of items collected, number of items used, and the total score. The time to train the AI may also be analyzed.
 - Baselines: The agent should find the destination and generate the shortest path correctly and quickly without involving item collection and selection AI.
 
-Qualitative evaluation:
+Qualitative Evaluation:
 
 - Simple Example: In a maze that does not contain any item, the agent should simply use the shortest path to reach the destination.
 - Super-Impressive Example: In a complex maze that involves traps and items, the agent should reach the highest score. In other words, it smartly gives up some item to save time, uses some item to remove some traps to save time, and bypass some traps to save items to get the perfect result.
