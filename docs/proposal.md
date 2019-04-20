@@ -25,5 +25,7 @@ Qualitative Evaluation:
 - Super-Impressive Example: In a complex maze that involves traps and items, the agent should reach the highest score. In other words, it smartly gives up some item to save time, uses some item to remove some traps to save time, and bypass some traps to save items to get the perfect result.
 
 ## Appointment with the Instructor
+
 Time: 3:30 pm - Thursday, April 25, 2019
+
 Location: DBH 4204
