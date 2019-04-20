@@ -3,7 +3,7 @@ layout: default
 title:  Home
 ---
 
-Source code: https://github.com/kexuejia911/Avengers[projectlink]
+Source code: [https://github.com/kexuejia911/Avengers][projectlink]
 
 Reports:
 
