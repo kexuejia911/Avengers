@@ -39,10 +39,11 @@ for epis in range(episodes):
 
     state = get_state()
     state = np.reshape(state, [1, 4])
+    reward = 0
 
     for step in range(100):
         action = agent.act(state)
-        next_state, reward, done = take_action(action)
+        next_state, reward, done = take_action(action，reward)
         next_state = np.reshape(next_state, [1, 4])
         if done:
             reward = -100
