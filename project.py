@@ -106,13 +106,14 @@ def check_movable(pos, action):
 # this is wrong way to do it, just for test
 def take_action(map, action, reward, agent_host):
     agent = map.index(1)
-    print("Action is " + str(action))
+    # time.sleep(2)
+    print("Action is " + action_list[action])
     print("Map is " + str(map))
     print("Reward is " + str(reward))
     print("Agent is " + str(agent))
-    if action == action_list.index('forward'):
+    if action == action_list.index('forward'):  
         if check_movable(agent, action):
-            agent_host.sendCommand('movenorth 1')
+            agent_host.sendCommand('movesouth 1')
             map[agent] = 0
             agent -= 5
             if map[agent] < 0:
@@ -130,7 +131,7 @@ def take_action(map, action, reward, agent_host):
             return map, reward, False
     if action == action_list.index('back'):
         if check_movable(agent, action):
-            agent_host.sendCommand('movesouth 1')
+            agent_host.sendCommand('movenorth 1')
             map[agent] = 0
             agent += 5
             if map[agent] < 0:
@@ -148,7 +149,7 @@ def take_action(map, action, reward, agent_host):
             return map, reward, False
     if action == action_list.index('left'):
         if check_movable(agent, action):
-            agent_host.sendCommand('movewest 1')
+            agent_host.sendCommand('moveeast 1')
             map[agent] = 0
             agent -= 1
             if map[agent] < 0:
@@ -166,7 +167,7 @@ def take_action(map, action, reward, agent_host):
             return map, reward, False
     if action == action_list.index('right'):
         if check_movable(agent, action):
-            agent_host.sendCommand('moveeast 1')
+            agent_host.sendCommand('movewest 1')
             map[agent] = 0
             agent += 1
             if map[agent] < 0:
@@ -260,6 +261,7 @@ expID = 'tabular_q_learning'
 episode = 100000
 for e in range(episode):
 
+    time.sleep(0.1)
     state = [0, 0, 2, 0, 0,
             0, -1, 0, 0, 0,
             0, -1, 0, 0, 0,
@@ -290,14 +292,19 @@ for e in range(episode):
     print("Mission", (1), "running.")
 
     for step in range(100):
-        time.sleep(1)
+        # time.sleep(1)
         ndstate = np.reshape(state, [1, 25])
         action = agent.act(ndstate)
         next_state, reward, done = take_action(state,action,reward, agent_host)
+        time.sleep(0.1)
         ndnext_state = np.reshape(next_state, [1, 25])
         agent.remember(ndstate, action, reward, ndnext_state, done)
         state = next_state
         if done:
             print("episode: {}/{}, score: {}".format(e, episode, reward))
+            # -- clean up -- #
+            time.sleep(0.5) # (let the Mod reset)
             break
+
+    agent_host.sendCommand('movenorth 5')
     agent.replay(32)
