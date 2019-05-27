@@ -7,7 +7,7 @@ Source code: [https://github.com/kexuejia911/Avengers][projectlink]
 
 Reports:
 
-- [Proposal](proposal.html)
+- [Proposal](https://github.com/kexuejia911/Avengers/blob/master/docs/proposal.md)
 - [Status](status.html)
 - [Final](final.html)
 
