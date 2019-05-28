@@ -7,9 +7,9 @@ Source code: (https://github.com/kexuejia911/Avengers/tree/master/codes)
 
 Reports:
 
-- [Proposal](https://github.com/kexuejia911/Avengers/docs/proposal.md)
-- [Status](https://github.com/kexuejia911/Avengers/docs/status.md)
-- [Final](https://github.com/kexuejia911/Avengers/docs/final.md)
+- [Proposal](https://github.com/kexuejia911/Avengers/blob/master/docs/proposal.md)
+- [Status](https://github.com/kexuejia911/Avengers/blob/master/docs/status.md)
+- [Final](https://github.com/kexuejia911/Avengers/blob/master/docs/final.md)
 
 
 
