@@ -20,7 +20,9 @@ Qualitative Evaluation:
 Simple Example: In a maze that does not contain any item, the agent should simply use the shortest path to reach the destination.
 Super-Impressive Example: In a complex maze that involves traps and items, the agent should reach the highest score. In other words, it smartly gives up some item to save time, uses some item to remove some traps to save time, and bypass some traps to save items to get the perfect result.
 
-Remaining goals and challenges: In the rest two weeks, we are going to involve items since we can only solve a single maze now. We still need to add some item collection functions and train our model. Secondly, we need to build a more complex map, because we can only build a small map with size of 25. Last, our agent takes too long to learn, we need to simplify our code and decrease the complexity of our functions.
+## Remaining goals and challenges
+
+In the rest two weeks, we are going to involve items since we can only solve a single maze now. We still need to add some item collection functions and train our model. Secondly, we need to build a more complex map, because we can only build a small map with size of 25. Last, our agent takes too long to learn, we need to simplify our code and decrease the complexity of our functions.
 
 ## Resources Used
 - https://machinelearningmastery.com/how-to-define-your-machine-learning-problem/
