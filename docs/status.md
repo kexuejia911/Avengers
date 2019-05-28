@@ -4,7 +4,7 @@ title: Status
 ---
 ## Project Summary
 
-For our project, we create some simple maze and navigate an agent through it. Rewards will be implemented throughout the maze to produce more complex problems and solutions. So we plan to involve a smart item collection and selection AI. For the running process, no user input is needed for the agent. The agent should find a way to the destination automatically. During the process, the agent should also collect some items smartly and use them to remove the trap on the path to ensure it can arrive the destination with the shortest time, most items collected, and the fewest items used.Right now our agent is able to solve a single maze with lava. We build a maze randomly with a start point and an end point, and the agent is able to learn and find out the best way from the start point to the end point. I believe we will finish the rest functions in the final report. 
+For our project, we create some simple maze and navigate an agent through it. Rewards will be implemented throughout the maze to produce more complex problems and solutions. So we plan to involve a smart item collection AI. For the running process, no user input is needed for the agent. The agent should find a way to the destination automatically. During the process, the agent should also collect some items smartly on the path to ensure it can arrive the destination with the balance time, items collected.Right now our agent is able to solve a single maze with lava. We build a maze randomly with a start point and an end point, and the agent is able to learn and find out the best way from the start point to the end point. I believe we will finish the rest functions in the final report. 
 
 ## Approach
 
@@ -30,4 +30,4 @@ In the rest two weeks, we are going to involve items since we can only solve a s
 - https://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf
 - https://keras.io/models/sequential/#sequential-model-methods
 
-Video Link:https://youtu.be/z6rx2-dZaIE
+<iframe width="560" height="315" src="https://www.youtube.com/embed/z6rx2-dZaIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
