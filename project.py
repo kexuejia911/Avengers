@@ -27,7 +27,13 @@ map_list = [0, 0, 2, 0, 0,
        0, -1, 0, 0, 0,
        0, -1, 0, 0, 0,
        0, 0, 0, -1, 0,
-       1, 0, 0, 0, -1]
+       1, 0, 0, 0, 0]
+
+
+
+def print_map(grid):
+    for i in range(5):
+        print(str(grid[5*i+0]) + " " + str(grid[5*i+1]) + " " + str(grid[5*i+2]) + " " + str(grid[5*i+3]) + " " + str(grid[5*i+4]))
 
 
 def load_grid(world_state):
@@ -100,6 +106,7 @@ def check_movable(pos, action):
         pos += 5
     if pos<0 or pos >= 25:
         return False
+    print("Can move")
     return True
 
 
@@ -108,7 +115,8 @@ def take_action(map, action, reward, agent_host):
     agent = map.index(1)
     # time.sleep(2)
     print("Action is " + action_list[action])
-    print("Map is " + str(map))
+    print("State is ")
+    print_map(map)
     print("Reward is " + str(reward))
     print("Agent is " + str(agent))
     if action == action_list.index('forward'):  
@@ -117,14 +125,14 @@ def take_action(map, action, reward, agent_host):
             map[agent] = 0
             agent -= 5
             if map[agent] < 0:
-                reward = -100
+                reward -=100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
             if map[agent] > 0:
-                reward += 100
+                reward += 500
             return map, reward, True
         else:
             reward -= 1
@@ -135,14 +143,14 @@ def take_action(map, action, reward, agent_host):
             map[agent] = 0
             agent += 5
             if map[agent] < 0:
-                reward = -100
+                reward -=100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
             if map[agent] > 0:
-                reward += 100
+                reward += 500
             return map, reward, True
         else:
             reward -= 1
@@ -153,14 +161,14 @@ def take_action(map, action, reward, agent_host):
             map[agent] = 0
             agent -= 1
             if map[agent] < 0:
-                reward = -100
+                reward -=100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
             if map[agent] > 0:
-                reward += 100
+                reward += 500
             return map, reward, True
         else:
             reward -= 1
@@ -171,21 +179,22 @@ def take_action(map, action, reward, agent_host):
             map[agent] = 0
             agent += 1
             if map[agent] < 0:
-                reward = -100
+                reward -=100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
             if map[agent] > 0:
-                reward += 100
+                reward += 500
             return map, reward, True
         else:
             reward -= 1
             return map, reward, False
 
 
-agent = AgentAi(5, 4, 0.9, 0.15)
+agent = AgentAi(5, 4, 0.8, 0.15)
+#agent.model.load_weights('new40003.h5')
 
 agent_host = MalmoPython.AgentHost()
 
@@ -218,7 +227,7 @@ with open(mission_file, 'r') as f:
     my_mission = MalmoPython.MissionSpec(mission_xml, True)
 my_mission.removeAllCommandHandlers()
 my_mission.allowAllDiscreteMovementCommands()
-my_mission.requestVideo( 320, 240 )
+my_mission.requestVideo( 640, 360 )
 
 my_mission.setViewpoint( 1 )
 my_mission_record = MalmoPython.MissionRecordSpec()
@@ -229,7 +238,7 @@ my_clients.add(MalmoPython.ClientInfo('127.0.0.1', 10000)) # add Minecraft machi
 
 max_retries = 3
 agentID = 0
-expID = 'tabular_q_learning'
+expID = 'Avengers AI'
 
 # for retry in range(max_retries):
 #             try:
@@ -258,7 +267,7 @@ expID = 'tabular_q_learning'
 
 
 
-episode = 100000
+episode = 50000
 for e in range(episode):
 
     time.sleep(0.1)
@@ -266,7 +275,8 @@ for e in range(episode):
             0, -1, 0, 0, 0,
             0, -1, 0, 0, 0,
             0, 0, 0, -1, 0,
-            1, 0, 0, 0, -1]
+            1, 0, 0, 0, 0]
+
     reward = 0
     for retry in range(max_retries):
             try:
@@ -294,6 +304,7 @@ for e in range(episode):
     for step in range(100):
         # time.sleep(1)
         ndstate = np.reshape(state, [1, 25])
+        print(step)
         action = agent.act(ndstate)
         next_state, reward, done = take_action(state,action,reward, agent_host)
         time.sleep(0.1)
@@ -301,10 +312,30 @@ for e in range(episode):
         agent.remember(ndstate, action, reward, ndnext_state, done)
         state = next_state
         if done:
+            time.sleep(0.3) # (let the Mod reset)
             print("episode: {}/{}, score: {}".format(e, episode, reward))
             # -- clean up -- #
-            time.sleep(0.5) # (let the Mod reset)
+            time.sleep(0.3) # (let the Mod reset)
             break
-
-    agent_host.sendCommand('movenorth 5')
+    
+    time.sleep(0.2) # (let the Mod reset)
     agent.replay(32)
+    time.sleep(0.2) # (let the Mod reset)
+    print("Killing character")
+    for retry in range(max_retries):
+            try:
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                break
+            except RuntimeError as e:
+                if retry == max_retries - 1:
+                    print("Error moving character:",e)
+                    exit(1)
+                else:
+                    time.sleep(2.5)
+    # agent_host.sendCommand('movesouth 6')
+    time.sleep(0.5) # (let the Mod reset)
