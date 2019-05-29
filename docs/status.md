@@ -20,17 +20,11 @@ The output layer has 4 outputs (we have 4 actions right now) and each indicates 
 
 ## Evaluation
 
-Quantitative Evaluation:
-Numerical Metrics: Time to process, number of items collected, number of items used, and the total score. The time to train the AI may also be analyzed.
-Baselines: The agent should find the destination and generate the shortest path correctly and quickly without involving item collection and selection AI.
-
-Qualitative Evaluation:
-Simple Example: In a maze that does not contain any item, the agent should simply use the shortest path to reach the destination.
-Super-Impressive Example: In a complex maze that involves traps and items, the agent should reach the highest score. In other words, it smartly gives up some item to save time, uses some item to remove some traps to save time, and bypass some traps to save items to get the perfect result.
+Referring to our evaluation plan on the proposal, we need to measure the processing time (episodes, actual time vary by hardware), items collected, and the final score based on our rewards map. The minimum AI we have for now is referring to the simple example of our qualitative evaluation. The agent takes about 4000 episodes to complete the training, items are not involving for this minimum AI, the agent reaches the possible maximum score 94. In conclusion, the agent completely reaches our target baseline. However, the processing time is longer than what we expected. This is what we need to improve for final reports.
 
 ## Remaining goals and challenges
 
-In the rest two weeks, we are going to involve items since we can only solve a single maze now. We still need to add some item collection functions and train our model. Secondly, we need to build a more complex map, because we can only build a small map with size of 25. Last, our agent takes too long to learn, we need to simplify our code and decrease the complexity of our functions.
+For the final reports, we are going to increase the map size to 10x10 or even 15x15. We also intend to randomly generate the map for each iteration to test if the agent actually learns how to solve this type of maze or just learn how to solve exactly one map. We plan to involve items to increase problem complexity. The key will be required to open the door so that our agent will have a new action ‘pick-up’. We believe the main challenge for our group will be how to improve the agent to decrease the training time to ensure it’s still acceptable when the problem gets much more complex.
 
 ## Resources Used
 - https://machinelearningmastery.com/how-to-define-your-machine-learning-problem/
