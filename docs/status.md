@@ -17,6 +17,7 @@ We use Deep Q-learning algorithm to train the agent and build a three-layer neur
 ![alt text](figure%202.png "figure2")
 
 The output layer has 4 outputs (we have 4 actions right now) and each indicates the expected Q value of that action. The agent will choose the action has the highest Q value with 85% probability and 15% probability to choose a random action. We use ‘mse’ as our loss function and ‘adam’ as our optimizer because it is the most popular one and it fits most cases. We are also doing experience replay to get a better result. We set the memory size 2000 and minimum batch size 35 by our experiment. By the above approach, our agent is allowed to learn the shortest path to the door after 4000 episodes. 
+
 ![alt text](traning.png "figure3")
 
 ## Evaluation
