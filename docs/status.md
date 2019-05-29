@@ -23,6 +23,7 @@ The output layer has 4 outputs (we have 4 actions right now) and each indicates 
 Referring to our evaluation plan on the proposal, we need to measure the processing time (episodes, actual time vary by hardware), items collected, and the final score based on our rewards map. The minimum AI we have for now is referring to the simple example of our qualitative evaluation. The agent takes about 4000 episodes to complete the training, items are not involving for this minimum AI, the agent reaches the possible maximum score 94. In conclusion, the agent completely reaches our target baseline. However, the processing time is longer than what we expected. This is what we need to improve for final reports.
 
 ![alt text](traning.png "figure3")
+![alt text](traning2.png "figure4")
 
 ## Remaining goals and challenges
 
