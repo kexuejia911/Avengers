@@ -11,12 +11,13 @@ After the discussion with our mentor, we decide to simplify our project to make 
 ## Approach
 
 For the status report, we are only making minimum AI. For the minimum AI, we have a single pre-generated 5x5 map (figure 1) with some lava but no items. The agent does not need to pick the key to open the door. The AI agent should just find the shortest path to the door. Rewards map: -1 for each step, -100 for fall in lava, +100 for getting the door. 
-![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/figure%201.png "figure1")
+![alt text](figure%201.png "figure1")
 
 We use Deep Q-learning algorithm to train the agent and build a three-layer neural network though Keras library. The input layer accepts 25 input as features which is our states. The states are just a list of converted map information. For example, for the block 2-3 on the map, the state for it will be (grand, 0). The first element indicates what type the block is, and the second element is a boolean value that indicates that if the agent is standing on that block. So it makes sense we have 25 elements because the map has 25 blocks. We have two hidden layers since in the article 'An introduction to computing with neural nets', Lippmann points out that 2 hidden layers are enough for any model. Those hidden layers have 24 neurons because of my experience from CS178 peojects.
-![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/figure%202.png "figure2")
+![alt text](figure%202.png "figure2")
 
 The output layer has 4 outputs (we have 4 actions right now) and each indicates the expected Q value of that action. The agent will choose the action has the highest Q value with 85% probability and 15% probability to choose a random action. We use ‘mse’ as our loss function and ‘adam’ as our optimizer because it is the most popular one and it fits most cases. We are also doing experience replay to get a better result. We set the memory size 2000 and minimum batch size 35 by our experiment. By the above approach, our agent is allowed to learn the shortest path to the door after 4000 episodes. 
+![alt text](traning.png "figure3")
 
 ## Evaluation
 
