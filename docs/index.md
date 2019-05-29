@@ -4,6 +4,7 @@ title:  Home
 ---
 
 ![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/mine_avengers.jpg)
+<img src="https://github.com/kexuejia911/avengers/blob/master/docs/mine_avengers.jpg">
 
 ## We are avengers!
 
