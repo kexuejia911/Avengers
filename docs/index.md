@@ -16,12 +16,12 @@ has been caught by a black cat. Ant-man is still stuck in the quantum world, the
 ![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/ant_man.jpg)
 
 
-To get everything back on track, we decide to train an agent using Deep Q-learning to help ant-man get out the quantum maze.
+To get everything back on track, we, the team Avengers decide to train an agent using Deep Q-learning to help ant-man get out the quantum maze.
 
 ## Mission accept! Hurry up! 
 
 
-Reports:
+Wanna help us? Check the following:
 
 - [Proposal](https://github.com/kexuejia911/Avengers/blob/master/docs/proposal.md)
 - [Status](https://github.com/kexuejia911/Avengers/blob/master/docs/status.md)
