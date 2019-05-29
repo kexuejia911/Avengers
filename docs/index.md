@@ -4,12 +4,21 @@ title:  Home
 ---
 
 ![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/mine_avengers.jpg)
+
+## We are avengers!
+
 In the movie of Avengers: Endgame, Thanos has already been defeated. Earth, no, the whole universe is been saved. However, in another world, the world of Minecraft. Our ture hero
+
 ![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/mouse.jpg)
+
 has been caught by a black cat. Ant-man is still stuck in the quantum world, the Minecraft world is now in danger. 
+
 ![alt text](https://github.com/kexuejia911/avengers/blob/master/docs/ant_man.jpg)
-To get everything back on track, we decide to train an agent using Deep Q-learning to help ant-man get out the quantum maze. 
-Mission accept! Hurry up! 
+
+
+To get everything back on track, we decide to train an agent using Deep Q-learning to help ant-man get out the quantum maze.
+
+## Mission accept! Hurry up! 
 
 
 Reports:
