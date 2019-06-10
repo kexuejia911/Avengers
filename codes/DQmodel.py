@@ -85,7 +85,7 @@ def check_movable(pos, action, map_size):
     return True
 
 
-# this is wrong way to do it, just for test
+# Let's keep doning this, yeah
 def take_action(map, action, reward, map_size):
     agent = map.index(1)
     if action == action_list.index('forward'):
