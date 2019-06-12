@@ -29,11 +29,32 @@ map_list = [0, 0, 2, 0, 0,
        0, 0, 0, -1, 0,
        1, 0, 0, 0, 0]
 
+map_list10 = [0, 0, 2, 0, 3, 0, -1, 0, 0, 0,
+             -1, -1, 0, 0, 0, 0, 0, 0, 0, -1,
+              0, -1, 3, 0, 0, 0, 0, 3, 0, -1,
+              0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+              0, -1, 0, 0, 3, 0, 0, 0, 0, -1,
+              0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+              0, -1, 3, 0, 0, 0, 0, 3, 0, -1,
+              0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+              3, 0, -1, 0, 0, 0, -1, 0, 0, -1,
+              1, 0, 0, 0, -1, -1, 0, 0, 0, 0]
 
+
+map_list102 = [0, 0, 0, 0, 3, 0, -1, 0, 0, 0,
+            -1, -1, 0, 0, 0, 0, 0, 0, 0, -1,
+             0, -1, 3, 0, 0, 0, 0, 3, 0, -1,
+            0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+            0, -1, 0, 0, 3, 0, 0, 2, 0, -1,
+            0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+            0, -1, 3, 0, 0, 0, 0, 3, 0, -1,
+            0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+            3, 0, -1, 0, 0, 0, -1, 0, 0, -1,
+            1, 0, 0, 0, -1, -1, 0, 0, 0, 0]
 
 def print_map(grid):
-    for i in range(5):
-        print(str(grid[5*i+0]) + " " + str(grid[5*i+1]) + " " + str(grid[5*i+2]) + " " + str(grid[5*i+3]) + " " + str(grid[5*i+4]))
+    for i in range(10):
+        print(str(grid[10*i+0]) + " " + str(grid[10*i+1]) + " " + str(grid[10*i+2]) + " " + str(grid[10*i+3]) + " " + str(grid[10*i+4])+ " " + str(grid[10*i+5])+ " " + str(grid[10*i+6])+ " " + str(grid[10*i+7])+ " " + str(grid[10*i+8])+ " " + str(grid[10*i+9]))
 
 
 def load_grid(world_state):
@@ -61,17 +82,26 @@ def load_grid(world_state):
     return grid
 
 class AgentAi:
-    def __init__(self, map_size, action_size, gamma, epsilon):
+    def __init__(self, map_size, action_size, gamma, min_epsilon):
         self.state_size = map_size**2
         self.action_size = action_size
         self.memory = collections.deque(maxlen=2000)
         self.gamma = gamma
-        self.epsilon = epsilon
-        self.model = Sequential()
-        self.model.add(Dense(24, input_dim=self.state_size, activation='relu'))
-        self.model.add(Dense(24, activation='relu'))
-        self.model.add(Dense(self.action_size, activation='linear'))
-        self.model.compile(loss='mse', optimizer='Adam')
+        self.epsilon = 0.1
+        self.min_epsilon = min_epsilon
+        self.d_rate = 0.001
+        self.behavior_model = Sequential()
+        self.behavior_model.add(Dense(24, input_dim=self.state_size, activation='relu'))
+        self.behavior_model.add(Dense(self.action_size, activation='linear'))
+        self.behavior_model.compile(loss='mse', optimizer='Adam')
+        self.target_model = Sequential()
+        self.target_model.add(Dense(24, input_dim=self.state_size, activation='relu'))
+        self.target_model.add(Dense(self.action_size, activation='linear'))
+        self.target_model.compile(loss='mse', optimizer='Adam')
+        self.update_model()
+
+    def update_model(self):
+        self.target_model.set_weights(self.behavior_model.get_weights())
 
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
@@ -79,7 +109,7 @@ class AgentAi:
     def act(self, state):
         if np.random.rand() <= self.epsilon:
             return random.randrange(self.action_size)
-        act_values = self.model.predict(state)
+        act_values = self.behavior_model.predict(state)
         return np.argmax(act_values[0])
 
     def replay(self, batch_size):
@@ -87,113 +117,135 @@ class AgentAi:
         if batch_size < len(self.memory):
             min_batch = random.sample(self.memory, batch_size)
         for state, action, reward, next_state, done in min_batch:
-            target = reward
+            target = self.behavior_model.predict(state)
+            target[0][action] = reward
             if not done:
-                target = reward + self.gamma * np.amax(self.model.predict(next_state)[0])
-            target_f = self.model.predict(state)
-            target_f[0][action] = target
-            self.model.fit(state, target_f, epochs=1, verbose=0)
+                target[0][action] = reward + self.gamma * np.amax(self.target_model.predict(next_state)[0])
+            # target_f = self.model.predict(state)
+            # target_f[0][action] = target
+            self.behavior_model.fit(state, target, epochs=1, verbose=0)
+        if self.epsilon > self.min_epsilon:
+            self.epsilon -= self.d_rate
 
 
-def check_movable(pos, action):
-    if pos%5 == 0 and action == 2:
+def check_movable(pos, action, map_size):
+    if pos % map_size == 0 and action == 2:
         return False
-    if (pos-4)%5 == 0 and action == 3:
+    if (pos-map_size+1) % map_size == 0 and action == 3:
         return False
     if action == 0:
-        pos -= 5
+        pos -= map_size
     if action == 1:
-        pos += 5
-    if pos<0 or pos >= 25:
+        pos += map_size
+    if pos < 0 or pos >= map_size**2:
         return False
-    print("Can move")
     return True
 
 
-# this is wrong way to do it, just for test
-def take_action(map, action, reward, agent_host):
+
+# Let's keep doning this, yeah
+def take_action(map, action, reward, map_size):
     agent = map.index(1)
-    # time.sleep(2)
+
     print("Action is " + action_list[action])
     print("State is ")
     print_map(map)
     print("Reward is " + str(reward))
     print("Agent is " + str(agent))
-    if action == action_list.index('forward'):  
-        if check_movable(agent, action):
+
+    if action == action_list.index('forward'):
+        if check_movable(agent, action, map_size):
             agent_host.sendCommand('movesouth 1')
             map[agent] = 0
-            agent -= 5
+            agent -= map_size
             if map[agent] < 0:
-                reward -=100
+                reward = -100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
-            if map[agent] > 0:
-                reward += 500
-            return map, reward, True
+            if map[agent] == 2:
+                reward += 100
+                return map, reward, True
+            if map[agent] == 3:
+                reward += 20
+                map[agent] = 1
+                return map, reward, False
         else:
             reward -= 1
             return map, reward, False
     if action == action_list.index('back'):
-        if check_movable(agent, action):
+        if check_movable(agent, action, map_size):
             agent_host.sendCommand('movenorth 1')
             map[agent] = 0
-            agent += 5
+            agent += map_size
             if map[agent] < 0:
-                reward -=100
+                reward = -100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
-            if map[agent] > 0:
-                reward += 500
-            return map, reward, True
+            if map[agent] == 2:
+                reward += 100
+                return map, reward, True
+            if map[agent] == 3:
+                reward += 20
+                map[agent] = 1
+                return map, reward, False
         else:
             reward -= 1
             return map, reward, False
     if action == action_list.index('left'):
-        if check_movable(agent, action):
+        if check_movable(agent, action, map_size):
             agent_host.sendCommand('moveeast 1')
             map[agent] = 0
             agent -= 1
             if map[agent] < 0:
-                reward -=100
+                reward = -100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
-            if map[agent] > 0:
-                reward += 500
-            return map, reward, True
+            if map[agent] == 2:
+                reward += 100
+                return map, reward, True
+            if map[agent] == 3:
+                reward += 20
+                map[agent] = 1
+                return map, reward, False
         else:
             reward -= 1
             return map, reward, False
     if action == action_list.index('right'):
-        if check_movable(agent, action):
+        if check_movable(agent, action, map_size):
             agent_host.sendCommand('movewest 1')
             map[agent] = 0
             agent += 1
             if map[agent] < 0:
-                reward -=100
+                reward = -100
                 return map, reward, True
             if map[agent] == 0:
                 reward -= 1
                 map[agent] = 1
                 return map, reward, False
-            if map[agent] > 0:
-                reward += 500
-            return map, reward, True
+            if map[agent] == 2:
+                reward += 100
+                return map, reward, True
+            if map[agent] == 3:
+                reward += 20
+                map[agent] = 1
+                return map, reward, False
         else:
             reward -= 1
             return map, reward, False
 
 
-agent = AgentAi(5, 4, 0.8, 0.15)
+agent = AgentAi(10, 4, 0.9, 0.1)
+# agent.target_model.load_weights('weights/1200target2.h5')
+# agent.behavior_model.load_weights('weights/1200behave2.h5')
 #agent.model.load_weights('new40003.h5')
 
 agent_host = MalmoPython.AgentHost()
@@ -271,11 +323,16 @@ episode = 50000
 for e in range(episode):
 
     time.sleep(0.1)
-    state = [0, 0, 2, 0, 0,
-            0, -1, 0, 0, 0,
-            0, -1, 0, 0, 0,
-            0, 0, 0, -1, 0,
-            1, 0, 0, 0, 0]
+    state = [0, 0, 0, 0, 3, 0, -1, 0, 0, 0,
+            -1, -1, 0, 0, 0, 0, 0, 0, 0, -1,
+             0, -1, 3, 0, 0, 0, 0, 3, 0, -1,
+            0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+            0, -1, 0, 0, 3, 0, 0, 2, 0, -1,
+            0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+            0, -1, 3, 0, 0, 0, 0, 3, 0, -1,
+            0, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+            3, 0, -1, 0, 0, 0, -1, 0, 0, -1,
+            1, 0, 0, 0, -1, -1, 0, 0, 0, 0]
 
     reward = 0
     for retry in range(max_retries):
@@ -303,15 +360,16 @@ for e in range(episode):
 
     for step in range(100):
         # time.sleep(1)
-        ndstate = np.reshape(state, [1, 25])
         print(step)
+        ndstate = np.reshape(state, [1, 100])
         action = agent.act(ndstate)
-        next_state, reward, done = take_action(state,action,reward, agent_host)
-        time.sleep(0.1)
-        ndnext_state = np.reshape(next_state, [1, 25])
+        next_state, reward, done = take_action(state,action,reward,10)
+        time.sleep(0.2)
+        ndnext_state = np.reshape(next_state, [1, 100])
         agent.remember(ndstate, action, reward, ndnext_state, done)
         state = next_state
         if done:
+            agent.update_model()
             time.sleep(0.3) # (let the Mod reset)
             print("episode: {}/{}, score: {}".format(e, episode, reward))
             # -- clean up -- #
@@ -330,6 +388,14 @@ for e in range(episode):
                 agent_host.sendCommand('movesouth 1')
                 agent_host.sendCommand('movesouth 1')
                 agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
+                agent_host.sendCommand('movesouth 1')
                 break
             except RuntimeError as e:
                 if retry == max_retries - 1:
@@ -338,4 +404,4 @@ for e in range(episode):
                 else:
                     time.sleep(2.5)
     # agent_host.sendCommand('movesouth 6')
-    time.sleep(0.5) # (let the Mod reset)
+    time.sleep(1) # (let the Mod reset)
