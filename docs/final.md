@@ -18,5 +18,6 @@ Referring to our evaluation plan on the proposal, we need to measure the process
 ## References
 - https://machinelearningmastery.com/how-to-define-your-machine-learning-problem/
 - https://datascience.stackexchange.com/questions/20535/what-is-experience-replay-and-what-are-its-benefits
-- http://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf,https://keras.io/models/sequential/#sequential-model-methods
+- http://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf
+- https://keras.io/models/sequential/#sequential-model-methods
 - https://towardsdatascience.com/double-q-learning-the-easy-way-a924c4085ec3
