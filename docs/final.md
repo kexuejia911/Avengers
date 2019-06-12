@@ -24,7 +24,7 @@ By the above approach, our agent is allowed to learn the shortest path to the do
 
 Referring to our evaluation plan on the proposal, we need to measure the processing time (episodes, actual time vary by hardware), items collected, and the final score based on our rewards map. The 10x10 map and improved AI we have is referring to the Impressive example of our qualitative evaluation. The agent takes about 1500 episodes to find the path to get out, and after 500 more episodes (2000 in total) it learns to pick two items, we didn’t measure how long it takes it to get the possible maximum score because of time shortage. We also evaluate agent performance through different maps. In all the tests, it can find the path to the door within 500 episodes differences which satisfied our goal well. The average loss is also lower than the previous one. In conclusion, the agent completely reaches our final target. 
 ![alt text](loss.png)
-![alt text](map2.png)
+![alt text](map3.png)
 ![alt text](graph.png)
 
 ## References
